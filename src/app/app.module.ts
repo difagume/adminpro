@@ -9,7 +9,6 @@ import { PagesModule } from './pages/pages.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './login/register.component';
 
 @NgModule({
