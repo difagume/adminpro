@@ -7,6 +7,7 @@ import { APP_ROUTES } from './app.routest';
 // Modulos
 import { PagesModule } from './pages/pages.module';
 
+// Componentes
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
