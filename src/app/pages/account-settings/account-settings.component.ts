@@ -11,6 +11,7 @@ export class AccountSettingsComponent implements OnInit {
   constructor(public _ajustes: SettingsService) { }
 
   ngOnInit() {
+    this.colocarCheck();
   }
 
   cambiarTema(tema: string, link: any) {
@@ -23,8 +24,19 @@ export class AccountSettingsComponent implements OnInit {
 
     for (let ref of selectores) {
       ref.classList.remove('working');
+    }
+    link.classList.add('working');
+  }
 
-      link.classList.add('working');
+  colocarCheck() {
+    const selectores: any = document.getElementsByClassName('selector');
+    let tema = this._ajustes.ajustes.tema;
+
+    for (let ref of selectores) {
+      if (ref.getAttribute('data-theme') === tema) {
+        ref.classList.add('working');
+        break;
+      }
     }
   }
 }
