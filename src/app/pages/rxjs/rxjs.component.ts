@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-rxjs',
@@ -28,6 +28,8 @@ export class RxjsComponent implements OnInit {
 
         // Para mostrar un error
         if (contador === 2) {
+          // para detener el intervalo
+          // clearInterval(intervalo);
           observer.error('Auxilio!');
         }
 
@@ -36,16 +38,15 @@ export class RxjsComponent implements OnInit {
     });
 
     // Me subscribo al observador para escucharlo
-    obs.subscribe(
-      numero => console.log('Subscripción: ', numero), // <-- 1er callback cuando se llama al next (cuando recibe algo del observador)
-      error => console.error('Error en el obs', error), // <-- 2do callback de algun error
-      () => console.log('El observador terminó!')
+    obs.retry(2) // <-- Reintenta antes de disparar el error (si no se pone u número reintenta infinitamente)
+      .subscribe(
+        numero => console.log('Subscripción: ', numero), // <-- 1er callback cuando se llama al next (cuando recibe algo del observador)
+        error => console.error('Error en el obs', error), // <-- 2do callback de algun error
+        () => console.log('El observador terminó!')
 
-    );
-
+      );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
