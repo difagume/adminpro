@@ -12,7 +12,7 @@ export class RxjsComponent implements OnInit {
 
     // Me subscribo al observador para escucharlo
     this.regresaObservable()
-      .retry(2) // <-- Reintenta antes de disparar el error (si no se pone u número reintenta infinitamente)
+      // .retry(2) // <-- Reintenta antes de disparar el error (si no se pone u número reintenta infinitamente)
       .subscribe(
         numero => console.log('Subscripción: ', numero), // <-- 1er callback cuando se llama al next (cuando recibe algo del observador)
         error => console.error('Error en el obs', error), // <-- 2do callback de algun error
@@ -23,7 +23,7 @@ export class RxjsComponent implements OnInit {
 
   ngOnInit() { }
 
-  regresaObservable(): Observable<number> {
+  regresaObservable(): Observable<any> {
 
     return new Observable(observer => {
 
@@ -33,7 +33,11 @@ export class RxjsComponent implements OnInit {
 
         contador += 1;
 
-        observer.next(contador); // notifica y retorna contador
+        let salida = {
+          valor: contador
+        };
+
+        observer.next(salida); // notifica y retorna contador
 
         if (contador === 3) {
           // para detener el intervalo
@@ -43,15 +47,18 @@ export class RxjsComponent implements OnInit {
         }
 
         // Para mostrar un error
-        if (contador === 2) {
+        /* if (contador === 2) {
           // para detener el intervalo
           // clearInterval(intervalo);
           observer.error('Auxilio!');
-        }
+        } */
 
       }, 1000);
 
-    });
+    }).retry(2)
+      .map((respuesta: any) => { // el operador map obtiene la respuesta y nos puede retornar otra cosa
+        return respuesta.valor;
+      });
 
   }
 
