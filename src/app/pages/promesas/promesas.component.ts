@@ -8,7 +8,22 @@ import { Component, OnInit } from '@angular/core';
 export class PromesasComponent implements OnInit {
 
   constructor() {
-    let promesa = new Promise((resolve, reject) => {
+    // Función que estará escuchando el resolve de la promesa
+    this.contarTres().then(
+      // () => console.log('Terminó!')
+      mensaje => console.log('Terminó!', mensaje)
+    )
+      .catch(error => console.error('Error en la promesa', error));
+
+  }
+
+  ngOnInit() {
+  }
+
+  // Función que llama la promesa
+  contarTres(): Promise<boolean> {
+    // Promesa
+    return new Promise((resolve, reject) => {
 
       let contador = 0;
 
@@ -20,7 +35,7 @@ export class PromesasComponent implements OnInit {
 
         if (contador === 3) {
           // resolve(); // <-- si el contador es = 3 llama a resolve
-          resolve('ok!');
+          resolve(true);
           // reject('simplemente un error');
           clearInterval(intervalo); // <-- para detener el intervalo
         }
@@ -28,17 +43,6 @@ export class PromesasComponent implements OnInit {
       }, 1000);
 
     });
-
-    // Función que estará escuchando el resolve de la promesa
-    promesa.then(
-      // () => console.log('Terminó!')
-      mensaje => console.log('Terminó!', mensaje)
-    )
-      .catch(error => console.error('Error en la promesa', error));
-
-  }
-
-  ngOnInit() {
   }
 
 }
