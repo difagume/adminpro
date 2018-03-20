@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-rxjs',
   templateUrl: './rxjs.component.html',
   styles: []
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
+
+  // Para manejar las subscripciones a los observables
+  subscription: Subscription;
 
   constructor() {
 
     // Me subscribo al observador para escucharlo
-    this.regresaObservable()
+    this.subscription = this.regresaObservable()
       // .retry(2) // <-- Reintenta antes de disparar el error (si no se pone u número reintenta infinitamente)
       .subscribe(
         numero => console.log('Subscripción: ', numero), // <-- 1er callback cuando se llama al next (cuando recibe algo del observador)
@@ -22,6 +25,10 @@ export class RxjsComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   regresaObservable(): Observable<any> {
 
@@ -39,12 +46,12 @@ export class RxjsComponent implements OnInit {
 
         observer.next(salida); // notifica y retorna contador
 
-        if (contador === 3) {
-          // para detener el intervalo
-          clearInterval(intervalo);
-          // para finalizar el observable
-          observer.complete();
-        }
+        /*  if (contador === 3) {
+           // para detener el intervalo
+           clearInterval(intervalo);
+           // para finalizar el observable
+           observer.complete();
+         } */
 
         // Para mostrar un error
         /* if (contador === 2) {
@@ -53,7 +60,7 @@ export class RxjsComponent implements OnInit {
           observer.error('Auxilio!');
         } */
 
-      }, 1000);
+      }, 500);
 
     }).retry(2)
       .map((respuesta: any) => { // el operador map obtiene la respuesta y nos puede retornar otra cosa
