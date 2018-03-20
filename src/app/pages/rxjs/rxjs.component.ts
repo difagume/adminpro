@@ -58,6 +58,17 @@ export class RxjsComponent implements OnInit {
     }).retry(2)
       .map((respuesta: any) => { // el operador map obtiene la respuesta y nos puede retornar otra cosa
         return respuesta.valor;
+      })
+      .filter((valor, index) => {
+        // el operador filter siempre debe devolver un boolean
+        // console.log('Filter: ', valor, index);
+        if ((valor % 2) === 1) {
+          // impar
+          return true;
+        } else {
+          // par
+          return false;
+        }
       });
 
   }
