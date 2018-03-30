@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import * as swal from 'sweetalert'; // https://github.com/t4t5/sweetalert
+
 // Hace la llamada a cualquier script fuera de angular que se encuetre en un js
 declare function init_plugins();
 
@@ -61,7 +63,8 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (!this.forma.value.condiciones) {
-      console.log('Debe de aceptar las condiciones');
+      // console.log('Debe de aceptar las condiciones');
+      swal('Importante', 'Debe de aceptar las condiciones', 'warning');
       return;
     }
 
