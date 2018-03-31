@@ -5,23 +5,25 @@
         <h4 class="card-title">Perfil del usuario</h4>
         <h6 class="card-subtitle">nombre usuario</h6>
 
-        <form class="form p-t-20">
+        <form ngNativeValidate #f="ngForm" (ngSubmit)="guardar( f.value )" class="form p-t-20">
           <div class="form-group">
-            <label for="exampleInputuname">User Name</label>
+            <label for="txtUsuario">Nombre de usuario</label>
             <div class="input-group">
               <div class="input-group-addon">
                 <i class="ti-user"></i>
               </div>
-              <input type="text" class="form-control" id="exampleInputuname" placeholder="Username">
+              <input [ngModel]="usuario.nombre" name="nombre" type="text" class="form-control" id="txtUsuario" placeholder="Nombre de usuario"
+                required>
             </div>
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="txtEmail">Dirección de correo electrónico</label>
             <div class="input-group">
               <div class="input-group-addon">
                 <i class="ti-email"></i>
               </div>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              <input [ngModel]="usuario.email" name="email" type="email" class="form-control" id="txtEmail" placeholder="Ingrese correo electrónico"
+                required>
             </div>
           </div>
           <!-- <div class="form-group">
@@ -69,7 +71,7 @@
         <input type="file">
         <br>
         <br>
-        <button type="button" class="btn btn-success waves-effect waves-light m-r-10">
+        <button type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">
           <i class="fa fa-save" aria-hidden="true"></i>
           Actualizar foto
         </button>
