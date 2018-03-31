@@ -13,8 +13,9 @@ declare function init_plugins();
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  email: string;
   recuerdame: boolean = false;
+
   constructor(
     public router: Router,
     public _usuarioService: UsuarioService
@@ -22,6 +23,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     init_plugins();
+
+    this.email = localStorage.getItem('email') || '';
+    if (this.email.length > 1) {
+      this.recuerdame = true;
+    }
   }
 
   ingresar(forma: NgForm) {
