@@ -16,7 +16,7 @@ declare const gapi: any; // Google
 })
 export class LoginComponent implements OnInit {
   email: string;
-  recuerdame: boolean = false;
+  recuerdame = false;
   auth2: any; // The Sign-In object.
 
   constructor(

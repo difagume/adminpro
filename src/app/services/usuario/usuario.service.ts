@@ -3,6 +3,7 @@ import { Usuario } from '../../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from '../../config/config';
 import 'rxjs/add/operator/map';
+import { Router } from '@angular/router';
 
 declare let swal: any;
 
@@ -13,7 +14,8 @@ export class UsuarioService {
   token: string;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    public router: Router
   ) {
     this.cargarStorage();
     // console.log('usuarioService listo');
@@ -40,6 +42,17 @@ export class UsuarioService {
 
     this.usuario = usuario;
     this.token = token;
+  }
+
+  logout() {
+    this.usuario = null;
+    this.token = '';
+
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+
+    this.router.navigate(['/login']);
   }
 
   loginGoogle(token: string) {
