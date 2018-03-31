@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UsuarioService } from '../services/service.index';
+import { Usuario } from '../models/usuario.model';
 
-import * as swal from 'sweetalert'; // https://github.com/t4t5/sweetalert
+// import * as swal from 'sweetalert'; // https://github.com/t4t5/sweetalert
 
 // Hace la llamada a cualquier script fuera de angular que se encuetre en un js
 declare function init_plugins();
+
+declare let swal: any;
 
 @Component({
   selector: 'app-register',
@@ -15,7 +19,9 @@ export class RegisterComponent implements OnInit {
 
   forma: FormGroup;
 
-  constructor() { }
+  constructor(
+    public _usuarioService: UsuarioService
+  ) { }
 
   sonIguales(campo1: string, campo2: string) {
 
@@ -68,7 +74,17 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    console.log(this.forma.value);
+    // console.log(this.forma.value);
+    let usuario = new Usuario(
+      this.forma.value.nombre,
+      this.forma.value.correo,
+      this.forma.value.password
+    );
+
+    this._usuarioService.crearUsuario(usuario)
+      .subscribe(resp => {
+        console.log(resp);
+      });
   }
 
 }
