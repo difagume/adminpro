@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { URL_SERVICIOS } from '../../config/config';
+
+@Injectable()
+export class SubirArchivoService {
+
+  constructor() { }
+
+  subirArchivo(archivo: File, tipo: string, id: string) {
+
+    return new Promise((resolve, reject) => {
+
+      const formData = new FormData();
+      const xhr = new XMLHttpRequest();
+
+      formData.append('imagen', archivo, archivo.name);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) { // 4 es cuando termine el proceso
+
+          if (xhr.status === 2000) { // 200 es que lo hizo correctamente
+            console.log('Imagen subida');
+            resolve(xhr.response);
+          } else {
+            console.log('Falló la subida de la imágen');
+            reject(xhr.response);
+          }
+
+        }
+      };
+
+      const url = URL_SERVICIOS + '/upload/' + tipo + '/' + id;
+
+      xhr.open('PUT', url, true);
+      xhr.send(formData);
+    });
+
+  }
+
+}
