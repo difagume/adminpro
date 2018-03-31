@@ -9,10 +9,32 @@ declare let swal: any;
 @Injectable()
 export class UsuarioService {
 
+  usuario: Usuario;
+  token: string;
+
   constructor(
     public http: HttpClient
   ) {
-    // console.log('usuarioService listo');
+    console.log('usuarioService listo');
+  }
+
+  guardarStorage(id: string, token: string, usuario: Usuario) {
+    localStorage.setItem('id', id);
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+
+    this.usuario = usuario;
+    this.token = token;
+  }
+
+  loginGoogle(token: string) {
+    const url = URL_SERVICIOS + '/login/google';
+
+    return this.http.post(url, { token }) // envia el token en forma de objeto
+      .map((resp: any) => {
+        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        return true;
+      });
   }
 
   login(usuario: Usuario, recordar: boolean = false) {
@@ -23,21 +45,18 @@ export class UsuarioService {
       localStorage.removeItem('email');
     }
 
-    let url = URL_SERVICIOS + '/login';
+    const url = URL_SERVICIOS + '/login';
 
     return this.http.post(url, usuario)
       .map((resp: any) => {
-        localStorage.setItem('id', resp.id);
-        localStorage.setItem('token', resp.token);
-        localStorage.setItem('usuario', JSON.stringify(resp.usuario));
-
+        this.guardarStorage(resp.id, resp.token, resp.usuario);
         return true;
       });
   }
 
   crearUsuario(usuario: Usuario) {
 
-    let url = URL_SERVICIOS + '/usuario';
+    const url = URL_SERVICIOS + '/usuario';
 
     return this.http.post(url, usuario)
       .map((resp: any) => {

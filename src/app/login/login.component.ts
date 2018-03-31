@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UsuarioService } from '../services/service.index';
 import { Usuario } from '../models/usuario.model';
+import { NgZone } from '@angular/core';
 
 // Hace la llamada a cualquier script fuera de angular que se encuetre en un js
 declare function init_plugins();
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public router: Router,
-    public _usuarioService: UsuarioService
+    public _usuarioService: UsuarioService,
+    private zone: NgZone
   ) { }
 
   ngOnInit() {
@@ -50,7 +52,13 @@ export class LoginComponent implements OnInit {
     this.auth2.attachClickHandler(element, {}, (googleUser) => {
       // const profile = googleUser.getBasicProfile();
       const token = googleUser.getAuthResponse().id_token;
-      console.log(token);
+
+      // Ejecutamos dentro de una zona
+      this.zone.run(() => {
+        this._usuarioService.loginGoogle(token)
+          .subscribe(() => this.router.navigate(['/dashboard']));
+        // .subscribe(() => window.location.href = '#/dashboard');
+      });
     });
   }
 
