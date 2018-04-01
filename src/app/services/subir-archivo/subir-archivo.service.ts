@@ -18,9 +18,9 @@ export class SubirArchivoService {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) { // 4 es cuando termine el proceso
 
-          if (xhr.status === 2000) { // 200 es que lo hizo correctamente
+          if (xhr.status === 200) { // 200 es que lo hizo correctamente
             console.log('Imagen subida');
-            resolve(xhr.response);
+            resolve(JSON.parse(xhr.response));
           } else {
             console.log('Falló la subida de la imágen');
             reject(xhr.response);
