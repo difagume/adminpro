@@ -101,9 +101,11 @@ export class UsuarioService {
     return this.http.put(url, usuario)
       .map((resp: any) => {
 
-        const usuarioDB = resp.usuario;
+        if (usuario._id === this.usuario._id) {
+          const usuarioDB = resp.usuario;
+          this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+        }
 
-        this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
         swal('Usuario actualizado', usuario.nombre, 'success');
 
         return true;

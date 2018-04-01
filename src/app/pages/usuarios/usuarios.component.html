@@ -53,13 +53,20 @@
                 </td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.role }}</td>
+                <td>
+
+                  <select [(ngModel)]="usuario.role" name="role" class="form-control">
+                    <option value="ADMIN_ROLE">Administrador</option>
+                    <option value="USER_ROLE">Usuario</option>
+                  </select>
+
+                </td>
                 <td>
                   <label *ngIf="usuario.google" class="label label-danger">Google</label>
                   <label *ngIf="!usuario.google" class="label label-info">Normal</label>
                 </td>
                 <td>
-                  <button class="btn btn-primary">
+                  <button (click)="guardarUsuario( usuario )" class="btn btn-primary">
                     <i class="fa fa-save"></i>
                   </button>
 
