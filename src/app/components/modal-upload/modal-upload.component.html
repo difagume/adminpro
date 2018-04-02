@@ -9,11 +9,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
+        <div class="modal-body text-center">
+
+          <img *ngIf="!imagenTemporal" [src]="'xxx' | imagen" class="card-img-top img-responsive" style="width: 150px;">
+          <img *ngIf="imagenTemporal" [src]="imagenTemporal" class="card-img-top img-responsive" style="width: 150px;">
+          <br>
+          <br>
+          <input (change)="seleccionImagen( $event.target.files[0] ) " type="file">
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button (click)="subirImagen()" [disabled]="!imagenTemporal" type="button" class="btn btn-primary">Subir imagen</button>
           <button (click)="oculto='oculto'" type="button" class="btn btn-secondary">Cerrar</button>
         </div>
       </div>
