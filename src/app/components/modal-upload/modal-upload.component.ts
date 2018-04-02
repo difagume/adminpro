@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SubirArchivoService } from '../../services/service.index';
 import { ModalUploadService } from './modal-upload.service';
+import { ViewChild } from '@angular/core';
 
 declare let swal: any;
 
@@ -11,7 +12,7 @@ declare let swal: any;
 })
 export class ModalUploadComponent implements OnInit {
 
-  oculto: string = '';
+  @ViewChild('inputFile') inputFile: any;
   imagenSubir: File;
   imagenTemporal: string;
 
@@ -44,7 +45,26 @@ export class ModalUploadComponent implements OnInit {
   }
 
   subirImagen() {
+    this._subirArchivoService.subirArchivo(this.imagenSubir, this._modalUploadService.tipo, this._modalUploadService.id)
+      .then(resp => {
 
+        console.log(resp);
+
+        this._modalUploadService.notificacion.emit(resp);
+        this.ocultarModal();
+
+      }).catch(err => {
+        console.log('Error en la carga de la imagen...');
+
+      });
+  }
+
+  ocultarModal() {
+    this.imagenTemporal = null;
+    this.imagenSubir = null;
+    this.inputFile.nativeElement.value = '';
+
+    this._modalUploadService.ocultarModal();
   }
 
 }

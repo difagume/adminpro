@@ -7,8 +7,9 @@ export class ModalUploadService {
   public tipo: string;
   public id: string;
 
-  public oculto: string = '';
+  public oculto: string = 'oculto';
 
+  // Va a notificar cuando se realice el cambio de una imágen
   public notificacion = new EventEmitter<any>();
 
   constructor() {
@@ -16,11 +17,15 @@ export class ModalUploadService {
   }
 
   ocultarModal() {
-
+    this.oculto = 'oculto';
+    this.id = null;
+    this.tipo = null;
   }
 
-  mostrarModal() {
-
+  mostrarModal(tipo: string, id: string) {
+    this.oculto = '';
+    this.id = id;
+    this.tipo = tipo;
   }
 
 }

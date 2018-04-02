@@ -49,7 +49,7 @@
             <tbody>
               <tr *ngFor="let usuario of usuarios">
                 <td class="w70">
-                  <img [src]="usuario.img | imagen" class="img-50 img-circle img-responsive">
+                  <img (click)="mostrarModal( usuario._id )" [src]="usuario.img | imagen" class="img-50 img-circle img-responsive pointer">
                 </td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.nombre }}</td>

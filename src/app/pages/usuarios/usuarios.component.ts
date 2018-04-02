@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/service.index';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 declare let swal: any;
 
@@ -17,11 +18,15 @@ export class UsuariosComponent implements OnInit {
   cargando: boolean = true;
 
   constructor(
-    public _usuarioService: UsuarioService
+    public _usuarioService: UsuarioService,
+    public _modalUploadService: ModalUploadService
   ) { }
 
   ngOnInit() {
     this.cargarUsuarios();
+    // Me subscribo para recibir cualquier emision del objeto notificacion
+    this._modalUploadService.notificacion
+      .subscribe(resp => this.cargarUsuarios());
   }
 
   cargarUsuarios() {
@@ -82,7 +87,7 @@ export class UsuariosComponent implements OnInit {
 
     swal({
       title: '¿Está seguro?',
-      text: 'Está a punto de borrar a ' + usuario.nombre;
+      text: 'Está a punto de borrar a ' + usuario.nombre,
       icon: 'warning',
       buttons: ['Cancelar', true],
       dangerMode: true,
@@ -103,6 +108,10 @@ export class UsuariosComponent implements OnInit {
   guardarUsuario(usuario: Usuario) {
     this._usuarioService.actualizarUsuario(usuario)
       .subscribe();
+  }
+
+  mostrarModal(id: string) {
+    this._modalUploadService.mostrarModal('usuarios', id);
   }
 
 }
