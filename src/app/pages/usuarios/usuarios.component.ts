@@ -26,7 +26,19 @@ export class UsuariosComponent implements OnInit {
     this.cargarUsuarios();
     // Me subscribo para recibir cualquier emision del objeto notificacion
     this._modalUploadService.notificacion
-      .subscribe(resp => this.cargarUsuarios());
+      .subscribe((resp: any) => {
+
+        // console.log('resp:', resp);
+        // Si el usuario modificado es el usuario logueado, actualizo su imagen
+        if (resp.usuario._id === this._usuarioService.usuario._id) {
+
+          this._usuarioService.usuario.img = resp.usuario.img;
+
+          localStorage.setItem('usuario', JSON.stringify(resp.usuario));
+        }
+
+        this.cargarUsuarios();
+      });
   }
 
   cargarUsuarios() {
