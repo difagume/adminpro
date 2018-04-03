@@ -36,13 +36,11 @@ export class HospitalService {
 
     const url = URL_SERVICIOS + '/hospital/?token=' + this._usuarioService.token;
 
-    let hospital = new Hospital(nombre);
-
-    return this.http.post(url, hospital)
+    return this.http.post(url, { nombre })
       .map((resp: any) => {
         console.log(resp);
 
-        swal('Hospital creado', hospital.nombre, 'success');
+        swal('Hospital creado', nombre, 'success');
         return resp.hospital;
       });
   }

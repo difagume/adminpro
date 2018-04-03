@@ -73,15 +73,19 @@ export class HospitalesComponent implements OnInit {
   }
 
   crearHospital() {
-    swal('Crear hospital', 'Nombre:', {
-      buttons: ['Cancelar', true],
+    swal({
+      title: 'Crear hospital',
+      text: 'Ingrese el nombre del hospital:',
+      icon: 'info',
       content: 'input',
+      buttons: ['Cancelar', true],
+      dangerMode: true
     })
-      .then((value) => {
-        if (!value) {
+      .then((valor: string) => {
+        if (!valor || valor.length === 0) {
           return;
         }
-        this._hospitalService.crearHospital(value)
+        this._hospitalService.crearHospital(valor)
           .subscribe(resp => this.cargarHospitales());
       });
   }
