@@ -1,23 +1,24 @@
 #themecolors a {
     cursor: pointer;
 }
-.pointer{
+
+.pointer {
     cursor: pointer;
 }
 
-.w70{
+.w70 {
     width: 70px;
 }
 
-.img-50{
+.img-50 {
     width: 50px;
 }
 
-.oculto{
+.oculto {
     display: none;
 }
 
-.fondo-negro{
+.fondo-negro {
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     top: 0px;
@@ -25,4 +26,18 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
+}
+
+.centrado {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /* margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; */
 }

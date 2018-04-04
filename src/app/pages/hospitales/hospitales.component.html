@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<i *ngIf="cargando" class="fa fa-spinner fa-spin fa-3x fa-fw" style="margin: auto;display:block;"></i>
+<i *ngIf="cargando" class="fa fa-spinner fa-spin fa-3x fa-fw centrado" style="margin: auto;display:block;color: #1976d2"></i>
 
 <div class="row animated fadeIn">
     <!-- *ngIf="!cargando" -->
@@ -44,8 +44,7 @@
                                     <img (click)="mostrarModal( hospital._id )" [src]="hospital.img | imagen:'hospital'" class="img-50 card-img-top img-responsive pointer">
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control form-control-line" placeholder="Nombre del hospital"
-                                        required>
+                                    <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control form-control-line" placeholder="Nombre del hospital" required>
                                 </td>
                                 <td>
                                     <button (click)="actualizarHospital( hospital )" class="btn waves-effect waves-light btn-primary">
