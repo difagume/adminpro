@@ -10,19 +10,7 @@
     </div>
 </div>
 
-<!-- <div class="row animated fadeIn" *ngIf="cargando">
-  <div class="col-sm-12">
-
-    <div class="alert alert-warning text-center">
-      <strong>Cargando</strong>
-      <br>
-      <i class="fa fa-refresh fa-spin fa-2x"></i>
-      <br>
-      <span>Espere por favor</span>
-    </div>
-
-  </div>
-</div> -->
+<i *ngIf="cargando" class="fa fa-spinner fa-spin fa-3x fa-fw" style="margin: auto;display:block;"></i>
 
 <div class="row animated fadeIn">
     <!-- *ngIf="!cargando" -->
@@ -56,9 +44,9 @@
                                 <td>
 
                                     <select [(ngModel)]="usuario.role" name="role" class="form-control">
-                    <option value="ADMIN_ROLE">Administrador</option>
-                    <option value="USER_ROLE">Usuario</option>
-                  </select>
+                                        <option value="ADMIN_ROLE">Administrador</option>
+                                        <option value="USER_ROLE">Usuario</option>
+                                    </select>
 
                                 </td>
                                 <td>
@@ -67,12 +55,12 @@
                                 </td>
                                 <td>
                                     <button (click)="guardarUsuario( usuario )" class="btn waves-effect waves-light btn-primary">
-                    <i class="fa fa-save"></i>
-                  </button>
+                                        <i class="fa fa-save"></i>
+                                    </button>
 
                                     <button (click)="borrarUsuario( usuario )" class="btn waves-effect waves-light btn-danger">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -80,12 +68,12 @@
                 </div>
 
                 <button *ngIf="desde>0" (click)="cambiarDesde(-5)" class="btn waves-effect waves-light btn-secondary">
-          Anteriores
-        </button>
+                    Anteriores
+                </button>
 
                 <button *ngIf="desde+5<=totalRegistros" (click)="cambiarDesde(5)" class="btn waves-effect waves-light btn-secondary">
-          Siguientes
-        </button>
+                    Siguientes
+                </button>
 
             </div>
         </div>

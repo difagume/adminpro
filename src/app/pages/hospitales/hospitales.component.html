@@ -10,19 +10,7 @@
     </div>
 </div>
 
-<!-- <div class="row animated fadeIn" *ngIf="cargando">
-    <div class="col-sm-12">
-
-        <div class="alert alert-warning text-center">
-            <strong>Cargando</strong>
-            <br>
-            <i class="fa fa-refresh fa-spin fa-2x"></i>
-            <br>
-            <span>Espere por favor</span>
-        </div>
-
-    </div>
-</div> -->
+<i *ngIf="cargando" class="fa fa-spinner fa-spin fa-3x fa-fw" style="margin: auto;display:block;"></i>
 
 <div class="row animated fadeIn">
     <!-- *ngIf="!cargando" -->
@@ -32,9 +20,9 @@
 
                 <div class="text-right">
                     <button (click)="crearHospital()" class="btn waves-effect waves-light btn-rounded btn-info">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    Crear hospital
-                </button>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Crear hospital
+                    </button>
                 </div>
 
                 <h3 class="card-title">Hospitales registrados (
@@ -56,7 +44,8 @@
                                     <img (click)="mostrarModal( hospital._id )" [src]="hospital.img | imagen:'hospital'" class="img-50 card-img-top img-responsive pointer">
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control form-control-line" placeholder="Nombre del hospital" required>
+                                    <input [(ngModel)]="hospital.nombre" name="nombre" type="text" class="form-control form-control-line" placeholder="Nombre del hospital"
+                                        required>
                                 </td>
                                 <td>
                                     <button (click)="actualizarHospital( hospital )" class="btn waves-effect waves-light btn-primary">
@@ -73,12 +62,12 @@
                 </div>
 
                 <button *ngIf="desde>0" (click)="cambiarDesde(-5)" class="btn waves-effect waves-light btn-secondary">
-          Anteriores
-        </button>
+                    Anteriores
+                </button>
 
                 <button *ngIf="desde+5<=totalRegistros" (click)="cambiarDesde(5)" class="btn waves-effect waves-light btn-secondary">
-          Siguientes
-        </button>
+                    Siguientes
+                </button>
 
             </div>
         </div>
