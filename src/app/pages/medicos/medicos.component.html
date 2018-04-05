@@ -19,7 +19,7 @@
             <div class="card-body">
 
                 <div class="text-right">
-                    <button (click)="crearMedico()" class="btn waves-effect waves-light btn-rounded btn-info">
+                    <button [routerLink]="['/medico','nuevo']" class="btn waves-effect waves-light btn-rounded btn-info">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                       Crear médico
                   </button>
@@ -42,7 +42,7 @@
                         <tbody>
                             <tr *ngFor="let medico of medicos">
                                 <td class="w70">
-                                    <img (click)="mostrarModal( medico._id )" [src]=" medico.img | imagen:' medico'" class="img-50 card-img-top img-responsive pointer">
+                                    <img (click)="mostrarModal( medico._id )" [src]=" medico.img | imagen:'medico'" class="img-50 card-img-top img-responsive pointer">
                                 </td>
                                 <td>
                                     {{ medico.nombre }}
@@ -51,7 +51,7 @@
                                     {{ medico.hospital.nombre }}
                                 </td>
                                 <td>
-                                    <button (click)="editarMedico( medico )" class="btn waves-effect waves-light btn-primary">
+                                    <button [routerLink]="['/medico', medico._id]" class="btn waves-effect waves-light btn-primary">
                                       <i class="fa fa-edit"></i>
                                   </button>
 

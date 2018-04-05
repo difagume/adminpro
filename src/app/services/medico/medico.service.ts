@@ -41,10 +41,10 @@ export class MedicoService {
       });
   }
 
-  buscarMedicoes(termino: string) {
+  buscarMedicos(termino: string) {
     const url = URL_SERVICIOS + '/busqueda/coleccion/medicos/' + termino;
     return this.http.get(url)
-      .map((resp: any) => resp.medicoes);
+      .map((resp: any) => resp.medicos);
   }
 
   actualizarMedico(medico: Medico) {

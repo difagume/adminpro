@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MedicoService } from '../../services/service.index';
 import { Medico } from '../../models/medico.model';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 declare let swal: any;
 
@@ -17,11 +18,19 @@ export class MedicosComponent implements OnInit {
 
   constructor(
     public _medicoService: MedicoService,
+    public _modalUploadService: ModalUploadService
   ) { }
 
   ngOnInit() {
     // Cargo los médicos
     this.cargarMedicos();
+
+    // Me subscribo para recibir cualquier emision del objeto notificacion
+    this._modalUploadService.notificacion
+      .subscribe((resp: any) => {
+        // console.log('resp:', resp);
+        this.cargarMedicos();
+      });
   }
 
   cargarMedicos() {
@@ -56,7 +65,18 @@ export class MedicosComponent implements OnInit {
       });
   }
 
+  buscarMedico(termino: string) {
+    if (termino.length <= 0) {
+      this.cargarMedicos();
+      return;
+    }
 
+    this._medicoService.buscarMedicos(termino)
+      .subscribe((medicos: Medico[]) => {
+        // console.log(usuarios);
+        this.medicos = medicos;
+      });
+  }
 
   // Paginación
   cambiarDesde(valor: number) {
@@ -76,8 +96,8 @@ export class MedicosComponent implements OnInit {
 
   }
 
-  /* mostrarModal(id: string) {
-    this._modalUploadService.mostrarModal('hospitales', id);
-  } */
+  mostrarModal(id: string) {
+    this._modalUploadService.mostrarModal('medicos', id);
+  }
 
 }
