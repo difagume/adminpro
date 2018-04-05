@@ -28,15 +28,13 @@ export class MedicoService {
       });
   }
 
-  crearMedico(nombre: string) {
-
-    const url = URL_SERVICIOS + '/medico/?token=' + this._usuarioService.token;
-
-    return this.http.post(url, { nombre })
+  guardarMedico(medico: Medico) {
+    const url = URL_SERVICIOS + '/medico?token=' + this._usuarioService.token;
+    return this.http.post(url, medico)
       .map((resp: any) => {
-        console.log(resp);
 
-        swal('Medico creado', nombre, 'success');
+        swal('Médico creado', medico.nombre, 'success');
+
         return resp.medico;
       });
   }
