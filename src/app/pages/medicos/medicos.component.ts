@@ -58,7 +58,7 @@ export class MedicosComponent implements OnInit {
 
           this._medicoService.borrarMedico(medico._id)
             .subscribe(borrado => {
-              console.log(borrado);
+              // console.log(borrado);
               this.cargarMedicos();
             });
         }
