@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Hospital } from '../../models/hospital.model';
 import { MedicoService, HospitalService } from '../../services/service.index';
 import { Medico } from '../../models/medico.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -20,14 +20,35 @@ export class MedicoComponent implements OnInit {
   constructor(
     public _medicoService: MedicoService,
     public _hospitalService: HospitalService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {
+
+    activatedRoute.params.subscribe(params => {
+
+      let id = params['id'];
+
+      if (id !== 'nuevo') {
+        this.cargarMedico(id);
+      }
+    });
+  }
 
   ngOnInit() {
     this._hospitalService.cargarHospitales()
       .subscribe((resp: any) => {
         // console.log(resp);
         this.hospitales = resp.hospitales;
+      });
+  }
+
+  cargarMedico(id: string) {
+    this._medicoService.cargarMedico(id)
+      .subscribe(medico => {
+
+        this.medico = medico;
+        this.medico.hospital = medico.hospital._id;
+        this.cambioHospital(this.medico.hospital);
       });
   }
 
@@ -53,7 +74,7 @@ export class MedicoComponent implements OnInit {
       .subscribe(hospital => {
         // console.log(hospital);
         this.hospital = hospital;
-      })
+      });
   }
 
 }
