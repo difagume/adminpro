@@ -8,6 +8,11 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+// ngx-progressbar
+import { HttpClientModule } from '@angular/common/http';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
+
 // ng2-charts
 import { ChartsModule } from 'ng2-charts';
 
@@ -64,7 +69,10 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-s
         PAGES_ROUTES,
         FormsModule,
         ChartsModule,
-        PipesModule
+        PipesModule,
+        HttpClientModule,
+        NgProgressModule.forRoot(),
+        NgProgressHttpModule
     ]
 })
 export class PagesModule { }
