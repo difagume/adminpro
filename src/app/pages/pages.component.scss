@@ -16,3 +16,12 @@
         }
     }
 } */
+
+ng-progress {
+    .bar-placeholder {
+        background-color: lightgray;
+    }
+    .bar {
+        background: linear-gradient(to right, #F11712, #0099F7);
+    }
+}

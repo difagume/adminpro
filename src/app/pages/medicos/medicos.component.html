@@ -1,3 +1,78 @@
-<p>
-  medicos works!
-</p>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarMedico( input.value )" type="text" class="form-control" placeholder="Buscar médico...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <app-loading-spinner *ngIf="cargando"></app-loading-spinner> -->
+
+<div class="row animated fadeIn">
+    <!-- *ngIf="!cargando" -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="text-right">
+                    <button (click)="crearMedico()" class="btn waves-effect waves-light btn-rounded btn-info">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      Crear médico
+                  </button>
+                </div>
+
+                <h3 class="card-title">Médicos registrados (
+                    <small>{{totalRegistros}}</small> )</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Médico</th>
+                                <th>Hospital</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let medico of medicos">
+                                <td class="w70">
+                                    <img (click)="mostrarModal( medico._id )" [src]=" medico.img | imagen:' medico'" class="img-50 card-img-top img-responsive pointer">
+                                </td>
+                                <td>
+                                    {{ medico.nombre }}
+                                </td>
+                                <td>
+                                    {{ medico.hospital.nombre }}
+                                </td>
+                                <td>
+                                    <button (click)="editarMedico( medico )" class="btn waves-effect waves-light btn-primary">
+                                      <i class="fa fa-edit"></i>
+                                  </button>
+
+                                    <button (click)="borrarMedico( medico )" class="btn waves-effect waves-light btn-danger">
+                                      <i class="fa fa-trash-o"></i>
+                                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button *ngIf="desde>0" (click)="cambiarDesde(-5)" class="btn waves-effect waves-light btn-secondary">
+                  Anteriores
+              </button>
+
+                <button *ngIf="desde+5<=totalRegistros" (click)="cambiarDesde(5)" class="btn waves-effect waves-light btn-secondary">
+                  Siguientes
+              </button>
+
+            </div>
+        </div>
+    </div>
+</div>
