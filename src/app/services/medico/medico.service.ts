@@ -29,14 +29,35 @@ export class MedicoService {
   }
 
   guardarMedico(medico: Medico) {
-    const url = URL_SERVICIOS + '/medico?token=' + this._usuarioService.token;
-    return this.http.post(url, medico)
-      .map((resp: any) => {
+    let url = URL_SERVICIOS + '/medico';
 
-        swal('Médico creado', medico.nombre, 'success');
+    if (medico._id) {
 
-        return resp.medico;
-      });
+      // Actualizando registro
+      url += '/' + medico._id;
+      url += '?token=' + this._usuarioService.token;
+
+      return this.http.put(url, medico)
+        .map((resp: any) => {
+
+          swal('Médico actualizado', medico.nombre, 'success');
+
+          return resp.medico;
+        });
+    } else {
+
+      // Creando registro
+      url += '?token=' + this._usuarioService.token;
+      return this.http.post(url, medico)
+        .map((resp: any) => {
+
+          swal('Médico creado', medico.nombre, 'success');
+
+          return resp.medico;
+        });
+
+    }
+
   }
 
   buscarMedicos(termino: string) {
