@@ -37,6 +37,7 @@ import { HospitalesComponent } from './hospitales/hospitales.component';
 import { MedicosComponent } from './medicos/medicos.component';
 import { MedicoComponent } from './medicos/medico.component';
 import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-spinner.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-s
         HospitalesComponent,
         MedicosComponent,
         MedicoComponent,
-        LoadingSpinnerComponent
+        LoadingSpinnerComponent,
+        BusquedaComponent
     ],
     exports: [
         DashboardComponent,
