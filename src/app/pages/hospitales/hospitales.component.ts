@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 import { Hospital } from '../../models/hospital.model';
 import { HospitalService } from '../../services/service.index';
-import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 declare let swal: any;
 
