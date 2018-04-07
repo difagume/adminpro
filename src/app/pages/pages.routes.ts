@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from '../services/guards/admin.guard';
+import { VerificaTokenGuard } from '../services/guards/verifica-token.guard';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,7 +15,12 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 
 const pagesRoutes: Routes = [
-    { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' } },
+    {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [VerificaTokenGuard],
+        data: { titulo: 'Dashboard' }
+    },
     { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar' } },
     { path: 'graficas1', component: Graficas1Component, data: { titulo: 'Gráficas' } },
     { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
