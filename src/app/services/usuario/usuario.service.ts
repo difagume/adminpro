@@ -95,7 +95,7 @@ export class UsuarioService {
         return true;
       })
       .catch(err => {
-        swal('Error en el login', err.error.mensaje, 'error');
+        // swal('Error en el login', err.error.mensaje, 'error');
         return Observable.throw(err);
       });
   }
@@ -110,7 +110,7 @@ export class UsuarioService {
         return resp.usuario;
       })
       .catch(err => {
-        swal(err.error.mensaje, err.error.errors.message, 'error');
+        // swal(err.error.mensaje, err.error.errors.message, 'error');
         return Observable.throw(err);
       });
   }
@@ -131,7 +131,7 @@ export class UsuarioService {
         return true;
       })
       .catch(err => {
-        swal(err.error.mensaje, err.error.errors.message, 'error');
+        // swal(err.error.mensaje, err.error.errors.message, 'error');
         return Observable.throw(err);
       });
   }
@@ -147,7 +147,7 @@ export class UsuarioService {
 
       })
       .catch(resp => {
-        console.log(resp);
+        // console.log(resp);
       });
   }
 
