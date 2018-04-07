@@ -129,6 +129,10 @@ export class UsuarioService {
         swal('Usuario actualizado', usuario.nombre, 'success');
 
         return true;
+      })
+      .catch(err => {
+        swal(err.error.mensaje, err.error.errors.message, 'error');
+        return Observable.throw(err);
       });
   }
 
