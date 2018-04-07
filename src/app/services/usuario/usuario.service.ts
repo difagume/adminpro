@@ -108,6 +108,10 @@ export class UsuarioService {
       .map((resp: any) => {
         swal('Usuario creado', usuario.email, 'success');
         return resp.usuario;
+      })
+      .catch(err => {
+        swal(err.error.mensaje, err.error.errors.message, 'error');
+        return Observable.throw(err);
       });
   }
 
