@@ -10,18 +10,15 @@ import { SidebarService, UsuarioService } from '../../services/service.index';
 export class SidebarComponent implements OnInit {
 
   usuario: Usuario;
-  menus: any[] = [];
 
   constructor(
     public _usuarioService: UsuarioService,
     public _sidebar: SidebarService
-  ) {
-    // console.log('SidebarComponent listo');
-    this.menus = this._usuarioService.menu; // Cargo el menú
-  }
+  ) { }
 
   ngOnInit() {
     this.usuario = this._usuarioService.usuario;
+    this._sidebar.cargarMenu();
   }
 
 }

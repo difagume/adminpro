@@ -4,6 +4,7 @@ import { UsuarioService } from '../usuario/usuario.service';
 @Injectable()
 export class SidebarService {
 
+  menu: any[] = [];
   /* menu: any = [
     {
       titulo: 'Principal',
@@ -28,9 +29,11 @@ export class SidebarService {
   ]; */
 
   constructor(
-    // public _usuarioService: UsuarioService
-  ) {
-    // this.menu = this._usuarioService.menu; // Cargo el menú
+    public _usuarioService: UsuarioService
+  ) { }
+
+  cargarMenu() {
+    this.menu = this._usuarioService.menu; // Cargo el menú
   }
 
 }
