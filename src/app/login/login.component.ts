@@ -56,7 +56,10 @@ export class LoginComponent implements OnInit {
       // Ejecutamos dentro de una zona
       this.zone.run(() => {
         this._usuarioService.loginGoogle(token)
-          .subscribe(() => this.router.navigate(['/dashboard']));
+          .subscribe(() => {
+            this._usuarioService.auth2 = this.auth2;
+            this.router.navigate(['/dashboard']);
+          });
         // .subscribe(() => window.location.href = '#/dashboard');
       });
     });
@@ -72,4 +75,5 @@ export class LoginComponent implements OnInit {
     this._usuarioService.login(usuario, forma.value.recuerdame)
       .subscribe(resp => this.router.navigate(['/dashboard']));
   }
+
 }

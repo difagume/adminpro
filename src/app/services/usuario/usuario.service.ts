@@ -17,11 +17,12 @@ export class UsuarioService {
   usuario: Usuario;
   token: string;
   menu: any[] = [];
+  auth2: any; // The Sign-In object.
 
   constructor(
     public http: HttpClient,
     public router: Router,
-    public _subirArchivoService: SubirArchivoService
+    public _subirArchivoService: SubirArchivoService,
   ) {
     console.log('usuarioService listo');
     this.cargarStorage();
@@ -76,6 +77,9 @@ export class UsuarioService {
   }
 
   logout() {
+    if (this.usuario.google) {
+      this.signOutGoogle();
+    }
     this.usuario = null;
     this.token = '';
     this.menu = [];
@@ -86,6 +90,13 @@ export class UsuarioService {
     localStorage.removeItem('menu');
 
     this.router.navigate(['/login']);
+  }
+
+  signOutGoogle() {
+    // this.auth2 = gapi.auth2.getAuthInstance();
+    this.auth2.signOut().then(() => {
+      console.log('google user signed out');
+    });
   }
 
   loginGoogle(token: string) {
