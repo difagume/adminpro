@@ -49,7 +49,8 @@ export class LoginComponent implements OnInit {
   }
 
   attachSignin(element) {
-    this.auth2.attachClickHandler(element, {}, (googleUser) => {
+    // Gestionar inicios de sesión exitosos
+    const onSuccess = (googleUser) => {
       // const profile = googleUser.getBasicProfile();
       const token = googleUser.getAuthResponse().id_token;
 
@@ -57,12 +58,21 @@ export class LoginComponent implements OnInit {
       this.zone.run(() => {
         this._usuarioService.loginGoogle(token)
           .subscribe(() => {
+            // console.log('Logueado como ' + googleUser.getBasicProfile().getName());
             this._usuarioService.auth2 = this.auth2;
             this.router.navigate(['/dashboard']);
           });
         // .subscribe(() => window.location.href = '#/dashboard');
       });
-    });
+    };
+
+    // Manejar fallas de inicio de sesión
+    const onFailure = function (error) {
+      console.log(error);
+    };
+
+    // Realiza la autenticación
+    this.auth2.attachClickHandler(element, {}, onSuccess, onFailure);
   }
 
   ingresar(forma: NgForm) {

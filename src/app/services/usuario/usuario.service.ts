@@ -77,7 +77,7 @@ export class UsuarioService {
   }
 
   logout() {
-    if (this.usuario.google) {
+    if (this.usuario.google && this.auth2) {
       this.signOutGoogle();
     }
     this.usuario = null;
@@ -95,7 +95,7 @@ export class UsuarioService {
   signOutGoogle() {
     // this.auth2 = gapi.auth2.getAuthInstance();
     this.auth2.signOut().then(() => {
-      console.log('google user signed out');
+      // console.log('usuario de google desconectado');
     });
   }
 
