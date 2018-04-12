@@ -204,4 +204,9 @@ export class UsuarioService {
       });
   }
 
+  buscarEmail(termino: string) {
+    const url = URL_SERVICIOS + '/usuario/email/' + termino;
+    return this.http.get(url);
+  }
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { UsuarioService } from '../services/service.index';
 import { Usuario } from '../models/usuario.model';
 import { Router } from '@angular/router';
@@ -42,12 +42,25 @@ export class RegisterComponent implements OnInit {
     };
   }
 
+  validateEmailNotTaken(control: AbstractControl) {
+
+    return this._usuarioService.buscarEmail(control.value)
+      .map((resp: any) => {
+        console.log(resp.ok);
+        return resp.ok ? null : { emailTaken: true };
+      });
+
+    /* return this.signupService.checkEmailNotTaken(control.value).map(res => {
+      return res ? null : { emailTaken: true };
+    }); */
+  }
+
   ngOnInit() {
     init_plugins();
 
     this.forma = new FormGroup({
       nombre: new FormControl(null, Validators.required),
-      correo: new FormControl(null, [Validators.required, Validators.email]),
+      correo: new FormControl(null, [Validators.required, Validators.email], this.validateEmailNotTaken.bind(this)),
       password: new FormControl(null, Validators.required),
       password2: new FormControl(null, Validators.required),
       condiciones: new FormControl(false)
