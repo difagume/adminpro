@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { UsuarioService } from '../services/service.index';
-import { Usuario } from '../models/usuario.model';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Usuario } from '../models/usuario.model';
+import { UsuarioService } from '../services/service.index';
 
 // import * as swal from 'sweetalert'; // https://github.com/t4t5/sweetalert
 
@@ -25,6 +25,28 @@ export class RegisterComponent implements OnInit {
     public router: Router
   ) { }
 
+  ngOnInit() {
+    init_plugins();
+
+    this.forma = new FormGroup({
+      nombre: new FormControl(null, Validators.required),
+      correo: new FormControl(null, [Validators.required, Validators.email], this.validarEmailDisponible.bind(this)),
+      password: new FormControl(null, Validators.required),
+      password2: new FormControl(null, Validators.required),
+      condiciones: new FormControl(false)
+    }, { validators: this.sonIguales('password', 'password2') });
+
+    this.forma.setValue({
+      nombre: 'Test ',
+      correo: 'test@test.com',
+      password: '123456',
+      password2: '123456',
+      condiciones: true
+    });
+
+  }
+
+  // Validadores
   sonIguales(campo1: string, campo2: string) {
 
     return (group: FormGroup) => {
@@ -42,40 +64,16 @@ export class RegisterComponent implements OnInit {
     };
   }
 
-  validateEmailNotTaken(control: AbstractControl) {
-
+  // https://alligator.io/angular/async-validators/
+  validarEmailDisponible(control: AbstractControl) {
     return this._usuarioService.buscarEmail(control.value)
       .map((resp: any) => {
-        console.log(resp.ok);
-        return resp.ok ? null : { emailTaken: true };
+        // console.log(resp.ok);
+        return resp.ok ? null : { emailNoDisponible: true };
       });
-
-    /* return this.signupService.checkEmailNotTaken(control.value).map(res => {
-      return res ? null : { emailTaken: true };
-    }); */
   }
 
-  ngOnInit() {
-    init_plugins();
-
-    this.forma = new FormGroup({
-      nombre: new FormControl(null, Validators.required),
-      correo: new FormControl(null, [Validators.required, Validators.email], this.validateEmailNotTaken.bind(this)),
-      password: new FormControl(null, Validators.required),
-      password2: new FormControl(null, Validators.required),
-      condiciones: new FormControl(false)
-    }, { validators: this.sonIguales('password', 'password2') });
-
-    this.forma.setValue({
-      nombre: 'Test ',
-      correo: 'test@test.com',
-      password: '123456',
-      password2: '123456',
-      condiciones: true
-    });
-
-  }
-
+  // Funciones
   registrarUsuario() {
     // Saber si el formulario es valido
     // console.log('Forma válida: ', this.forma.valid);

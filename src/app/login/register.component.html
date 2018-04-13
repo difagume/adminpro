@@ -23,6 +23,22 @@
           <div class="col-xs-12">
             <input formControlName="correo" name="correo" class="form-control" type="email" required placeholder="Email">
           </div>
+
+          <div *ngIf="forma.get('correo').status === 'PENDING'" style="margin-top: 3px">
+            <span class="label label-info d-block text-center">Comprobando...</span>
+          </div>
+          <div *ngIf="forma.get('correo').status === 'VALID'" style="margin-top: 3px">
+            <span class="label label-success d-block text-center">
+              😺 ¡El correo esta disponible!
+            </span>
+          </div>
+
+          <div *ngIf="forma.get('correo').errors && forma.get('correo').errors.emailNoDisponible" style="margin-top: 3px">
+            <span class="label label-danger d-block text-center">
+              😢 ¡Oh, no, este correo ya está en uso!
+            </span>
+          </div>
+
         </div>
         <div class="form-group ">
           <div class="col-xs-12">
