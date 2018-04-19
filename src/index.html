@@ -26,6 +26,12 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="theme-color" content="#f48c5b">
+
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- Google -->
@@ -52,6 +58,19 @@
   <!-- ============================================================== -->
   <!-- All Jquery -->
   <!-- ============================================================== -->
+  <!-- Service work -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((registration) => {
+          console.log('SW registered');
+        })
+        .catch((err) => {
+          console.log('SW error', err);
+        });
+    }
+  </script>
+  <!-- Jquery -->
   <script src="assets/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap tether Core JavaScript -->
   <script src="assets/plugins/bootstrap/js/popper.min.js"></script>
