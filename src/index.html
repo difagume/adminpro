@@ -58,18 +58,6 @@
   <!-- ============================================================== -->
   <!-- All Jquery -->
   <!-- ============================================================== -->
-  <!-- Service work -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then((registration) => {
-          console.log('SW registered');
-        })
-        .catch((err) => {
-          console.log('SW error', err);
-        });
-    }
-  </script>
   <!-- Jquery -->
   <script src="assets/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap tether Core JavaScript -->
@@ -88,6 +76,18 @@
   <script src="assets/js/custom.js"></script>
   <!-- SweetAlert -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- Service work -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((registration) => {
+          console.log('SW registered');
+        })
+        .catch((err) => {
+          console.log('SW error', err);
+        });
+    }
+  </script>
 </body>
 
 </html>
