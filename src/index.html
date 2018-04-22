@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
@@ -12,7 +12,7 @@
   <!-- page css -->
   <link href="assets/css/pages/login-register-lock.css" rel="stylesheet">
   <!-- Custom CSS -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.min.css" rel="stylesheet">
 
   <!-- You can change the theme colors from here -->
   <link id="tema" id="theme" rel="stylesheet">
@@ -25,17 +25,21 @@
 <![endif]-->
   <base href="/">
 
+  <!-- <meta name="robots" content="noindex" />
+  <meta name="AdsBot-Google" content="noindex" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="msapplication-starturl" content="/">
-  <meta name="theme-color" content="#f48c5b">
+  <meta name="theme-color" content="#2196F3">
+  <meta name="Description" content="Author: diego fabricio, Pais: EC, Category: angular">
 
   <link rel="manifest" href="/manifest.json">
+  <!-- <link rel="canonical" href="https://adminproweb.firebaseapp.com" /> -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- Google -->
-  <script src="https://apis.google.com/js/platform.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="458229930749-sr6sma82ppdcr8546mn3qtilsuqbb7a7.apps.googleusercontent.com">
 </head>
 
@@ -81,10 +85,10 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then((registration) => {
-          console.log('SW registered');
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
         })
         .catch((err) => {
-          console.log('SW error', err);
+          console.log('ServiceWorker registration failed: ', err);
         });
     }
   </script>
