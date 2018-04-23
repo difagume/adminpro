@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import { URL_SERVICIOS } from '../../config/config';
 import { Usuario } from '../../models/usuario.model';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
+import { AngularIndexedDB } from 'angular2-indexeddb';
 
 declare let swal: any;
 
@@ -106,7 +107,8 @@ export class UsuarioService {
       .map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         // console.log(resp);
-
+        // Creación de IndexeDB hospital
+        this.crearIdbHospital();
         return true;
       });
   }
@@ -125,6 +127,8 @@ export class UsuarioService {
       .map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         // console.log(resp);
+        // Creación de IndexeDB hospital
+        this.crearIdbHospital();
         return true;
       })
       .catch(err => {
@@ -209,4 +213,39 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
+  crearIdbHospital() {
+    let db = new AngularIndexedDB('hospitaldb', 1);
+    console.log('Creando idb');
+
+    db.openDatabase(1, (evt) => {
+      let objectStore = evt.currentTarget.result.createObjectStore('usuarios', { keyPath: '_id' });
+      console.log('objeto creado');
+
+      objectStore.createIndex('por-nombre', 'nombre');
+      // objectStore.createIndex('name', 'name', { unique: false });
+      // objectStore.createIndex('email', 'email', { unique: true });
+      console.log('indices creados');
+    }).then(() => {
+
+      // db.add('usuarios', this.usuario);
+
+      /* db.add('usuarios', {
+        id: '5ac249683ce866630d0a620x',
+        role: 'USER_ROLE', google: 'false', nombre: 'el diego',
+        email: 'dfg@ceaa.com', password: ':(',
+        img: '5ac249683ce866630d0a620b-379.png'
+      }).then(() => {
+        // Do something after the value was added
+      }, (error) => {
+        console.log(error);
+      }); */
+
+      /* db.getAll('usuarios').then((usu) => {
+        console.log('::', usu);
+      }, (error) => {
+        console.log(error);
+      }); */
+
+    });
+  }
 }

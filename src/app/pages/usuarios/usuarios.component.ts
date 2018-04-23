@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/service.index';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
+import { AngularIndexedDB } from 'angular2-indexeddb';
 
 declare let swal: any;
 
@@ -47,12 +48,22 @@ export class UsuariosComponent implements OnInit {
 
     this._usuarioService.cargarUsuarios(this.desde)
       .subscribe((resp: any) => {
-
         // console.log(resp);
         this.totalRegistros = resp.total;
         this.usuarios = resp.usuarios;
         this.cargando = false;
 
+        let db = new AngularIndexedDB('hospitaldb', 1);
+        db.openDatabase(1).then(() => {
+
+          this.usuarios.forEach(element => {
+            db.add('usuarios', element).then(() => {
+              // Do something after the value was added
+            }, (error) => {
+              // registro existente
+            });
+          });
+        });
       });
   }
 
@@ -125,5 +136,4 @@ export class UsuariosComponent implements OnInit {
   mostrarModal(id: string) {
     this._modalUploadService.mostrarModal('usuarios', id);
   }
-
 }
