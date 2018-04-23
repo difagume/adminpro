@@ -1,4 +1,4 @@
-//https://github.com/goldhand/sw-precache-webpack-plugin
+/* //https://github.com/goldhand/sw-precache-webpack-plugin
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 module.exports = {
@@ -19,3 +19,4 @@ module.exports = {
         }),
     ]
 };
+ */

@@ -26,6 +26,10 @@ import { SharedModule } from './shared/shared.module';
 import { HttpInterceptorService } from './services/errors/http-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandlerService } from './services/errors/error-handler.service';
+import { environment } from '../environments/environment';
+
+// Service worker
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,8 @@ import { ErrorHandlerService } from './services/errors/error-handler.service';
     SharedModule,
     HttpClientModule,
     NgProgressModule.forRoot(),
-    NgProgressHttpModule
+    NgProgressHttpModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     ErrorHandlerService,
