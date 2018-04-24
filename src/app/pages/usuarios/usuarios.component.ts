@@ -53,6 +53,7 @@ export class UsuariosComponent implements OnInit {
         this.usuarios = resp.usuarios;
         this.cargando = false;
 
+        // Registrar usuarios en indexedDB
         let db = new AngularIndexedDB('hospitaldb', 1);
         db.openDatabase(1).then(() => {
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MedicoService } from '../../services/service.index';
 import { Medico } from '../../models/medico.model';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
+import { AngularIndexedDB } from 'angular2-indexeddb';
 
 declare let swal: any;
 
@@ -41,6 +42,19 @@ export class MedicosComponent implements OnInit {
         // console.log(resp);
         this.totalRegistros = resp.total;
         this.medicos = resp.medicos;
+
+        // Registrar hospitales en indexedDB
+        let db = new AngularIndexedDB('hospitaldb', 1);
+        db.openDatabase(1).then(() => {
+
+          this.medicos.forEach(element => {
+            db.add('medicos', element).then(() => {
+              // Do something after the value was added
+            }, (error) => {
+              // registro existente
+            });
+          });
+        });
       });
   }
 

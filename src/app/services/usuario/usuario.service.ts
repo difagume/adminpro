@@ -219,12 +219,18 @@ export class UsuarioService {
 
     db.openDatabase(1, (evt) => {
       let objectStore = evt.currentTarget.result.createObjectStore('usuarios', { keyPath: '_id' });
-      console.log('objeto creado');
+      // console.log('objeto creado');
 
       objectStore.createIndex('por-nombre', 'nombre');
       // objectStore.createIndex('name', 'name', { unique: false });
       // objectStore.createIndex('email', 'email', { unique: true });
-      console.log('indices creados');
+      // console.log('indices creados');
+
+      objectStore = evt.currentTarget.result.createObjectStore('hospitales', { keyPath: '_id' });
+      objectStore.createIndex('por-nombre', 'nombre');
+
+      objectStore = evt.currentTarget.result.createObjectStore('medicos', { keyPath: '_id' });
+      objectStore.createIndex('por-nombre', 'nombre');
     }).then(() => {
 
       // db.add('usuarios', this.usuario);
