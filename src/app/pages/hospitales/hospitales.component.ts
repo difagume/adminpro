@@ -37,27 +37,42 @@ export class HospitalesComponent implements OnInit {
   cargarHospitales() {
     this.cargando = true;
 
-    this._hospitalService.cargarHospitales(this.desde)
-      .subscribe((resp: any) => {
+    // Cargar hospitales desde indexedDB
+    let db = new AngularIndexedDB('hospitaldb', 1);
+    if (db) {
+      db.openDatabase(1).then(() => {
 
-        // console.log(resp);
-        this.totalRegistros = resp.total;
-        this.hospitales = resp.hospitales;
-        this.cargando = false;
+        db.getAll('hospitales').then((resp) => {
+          this.hospitales = resp;
+          this.totalRegistros = this.hospitales.length;
+        }, (error) => {
+          console.log(error);
+        });
+      });
+    } else {
 
-        // Registrar hospitales en indexedDB
-        let db = new AngularIndexedDB('hospitaldb', 1);
-        db.openDatabase(1).then(() => {
+      this._hospitalService.cargarHospitales(this.desde)
+        .subscribe((resp: any) => {
 
-          this.hospitales.forEach(element => {
-            db.add('hospitales', element).then(() => {
-              // Do something after the value was added
-            }, (error) => {
-              // registro existente
+          // console.log(resp);
+          this.totalRegistros = resp.total;
+          this.hospitales = resp.hospitales;
+          this.cargando = false;
+
+          // Registrar hospitales en indexedDB
+          let db = new AngularIndexedDB('hospitaldb', 1);
+          db.openDatabase(1).then(() => {
+
+            this.hospitales.forEach(element => {
+              db.add('hospitales', element).then(() => {
+                // Do something after the value was added
+              }, (error) => {
+                // registro existente
+              });
             });
           });
         });
-      });
+    }
   }
 
   obtenerHospital(id: string) {
