@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 import { Hospital } from '../../models/hospital.model';
-import { HospitalService } from '../../services/service.index';
+import { HospitalService, UsuarioService } from '../../services/service.index';
+import idb, { DB } from 'idb';
 
 declare let swal: any;
 
@@ -24,11 +25,33 @@ export class HospitalesComponent implements OnInit {
 
   ngOnInit() {
     // Cargo los hospitales
-    this.cargarHospitales();
+    this.cargarHospitalesCache();
     // Me subscribo para recibir cualquier emision del objeto notificacion
     this._modalUploadService.notificacion
       .subscribe((resp: any) => {
         // console.log('resp:', resp);
+        this.cargarHospitalesCache();
+      });
+  }
+
+  cargarHospitalesCache() {
+    let dbH: DB;
+    idb.open('hospitaldb').then(
+      res => {
+        dbH = res;
+
+        if (!dbH) {
+          console.log('db cerrada');
+          return;
+        }
+
+        const index = dbH.transaction('hospitales')
+          .objectStore('hospitales').index('por-nombre');
+
+        index.getAll().then(hospitales => {
+          this.hospitales = hospitales;
+        });
+
         this.cargarHospitales();
       });
   }
@@ -36,42 +59,23 @@ export class HospitalesComponent implements OnInit {
   cargarHospitales() {
     this.cargando = true;
 
-    /* // Cargar hospitales desde indexedDB
-    let db = new AngularIndexedDB('hospitaldb', 1);
-    if (db) {
-      db.openDatabase(1).then(() => {
+    this._hospitalService.cargarHospitales(this.desde)
+      .subscribe((resp: any) => {
 
-        db.getAll('hospitales').then((resp) => {
-          this.hospitales = resp;
-          this.totalRegistros = this.hospitales.length;
-        }, (error) => {
-          console.log(error);
-        });
-      });
-    } else {
+        // console.log(resp);
+        this.totalRegistros = resp.total;
+        this.hospitales = resp.hospitales;
+        this.cargando = false;
 
-      this._hospitalService.cargarHospitales(this.desde)
-        .subscribe((resp: any) => {
+        // Registrar hospitales en indexedDB
+        const dbPromise = idb.open('hospitaldb')
+          .then(db => {
 
-          // console.log(resp);
-          this.totalRegistros = resp.total;
-          this.hospitales = resp.hospitales;
-          this.cargando = false;
-
-          // Registrar hospitales en indexedDB
-          let db = new AngularIndexedDB('hospitaldb', 1);
-          db.openDatabase(1).then(() => {
-
-            this.hospitales.forEach(element => {
-              db.add('hospitales', element).then(() => {
-                // Do something after the value was added
-              }, (error) => {
-                // registro existente
-              });
-            });
+            const tx = db.transaction('hospitales', 'readwrite');
+            const store = tx.objectStore('hospitales');
+            this.hospitales.forEach(hospital => store.put(hospital));
           });
-        });
-    } */
+      });
   }
 
   obtenerHospital(id: string) {
@@ -93,7 +97,7 @@ export class HospitalesComponent implements OnInit {
           this._hospitalService.borrarHospital(hospital._id)
             .subscribe(borrado => {
               console.log(borrado);
-              this.cargarHospitales();
+              this.cargarHospitalesCache();
             });
         }
       });
@@ -113,13 +117,13 @@ export class HospitalesComponent implements OnInit {
           return;
         }
         this._hospitalService.crearHospital(valor)
-          .subscribe(resp => this.cargarHospitales());
+          .subscribe(resp => this.cargarHospitalesCache());
       });
   }
 
   buscarHospital(termino: string) {
     if (termino.length <= 0) {
-      this.cargarHospitales();
+      this.cargarHospitalesCache();
       return;
     }
 
@@ -155,7 +159,7 @@ export class HospitalesComponent implements OnInit {
     }
 
     this.desde += valor;
-    this.cargarHospitales();
+    this.cargarHospitalesCache();
 
   }
 

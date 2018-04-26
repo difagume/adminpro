@@ -214,6 +214,9 @@ export class UsuarioService {
   }
 
   crearIdbHospital() {
+    if (!navigator.serviceWorker) {
+      return;
+    }
     idb.open('hospitaldb', 1, upgradeDB => {
       let objectStore = upgradeDB.createObjectStore('usuarios', { keyPath: '_id' });
       objectStore.createIndex('por-nombre', 'nombre');
@@ -223,6 +226,6 @@ export class UsuarioService {
 
       objectStore = upgradeDB.createObjectStore('medicos', { keyPath: '_id' });
       objectStore.createIndex('por-nombre', 'nombre');
-    }).then(db => console.log('DB opened!', db));
+    }).then(db => console.log('DB opened!'));
   }
 }
