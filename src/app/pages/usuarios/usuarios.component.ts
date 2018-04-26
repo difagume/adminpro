@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/service.index';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
-import { AngularIndexedDB } from 'angular2-indexeddb';
 
 declare let swal: any;
 
@@ -53,7 +52,7 @@ export class UsuariosComponent implements OnInit {
         this.usuarios = resp.usuarios;
         this.cargando = false;
 
-        // Registrar usuarios en indexedDB
+        /* // Registrar usuarios en indexedDB
         let db = new AngularIndexedDB('hospitaldb', 1);
         db.openDatabase(1).then(() => {
 
@@ -64,7 +63,7 @@ export class UsuariosComponent implements OnInit {
               // registro existente
             });
           });
-        });
+        }); */
       });
   }
 

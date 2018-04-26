@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import { URL_SERVICIOS } from '../../config/config';
 import { Usuario } from '../../models/usuario.model';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
-import { AngularIndexedDB } from 'angular2-indexeddb';
+import idb from 'idb';
 
 declare let swal: any;
 
@@ -23,7 +23,7 @@ export class UsuarioService {
   constructor(
     public http: HttpClient,
     public router: Router,
-    public _subirArchivoService: SubirArchivoService,
+    public _subirArchivoService: SubirArchivoService
   ) {
     console.log('usuarioService listo');
     this.cargarStorage();
@@ -214,44 +214,15 @@ export class UsuarioService {
   }
 
   crearIdbHospital() {
-    let db = new AngularIndexedDB('hospitaldb', 1);
-    console.log('Creando idb');
-
-    db.openDatabase(1, (evt) => {
-      let objectStore = evt.currentTarget.result.createObjectStore('usuarios', { keyPath: '_id' });
-      // console.log('objeto creado');
-
-      objectStore.createIndex('por-nombre', 'nombre');
-      // objectStore.createIndex('name', 'name', { unique: false });
-      // objectStore.createIndex('email', 'email', { unique: true });
-      // console.log('indices creados');
-
-      objectStore = evt.currentTarget.result.createObjectStore('hospitales', { keyPath: '_id' });
+    idb.open('hospitaldb', 1, upgradeDB => {
+      let objectStore = upgradeDB.createObjectStore('usuarios', { keyPath: '_id' });
       objectStore.createIndex('por-nombre', 'nombre');
 
-      objectStore = evt.currentTarget.result.createObjectStore('medicos', { keyPath: '_id' });
+      objectStore = upgradeDB.createObjectStore('hospitales', { keyPath: '_id' });
       objectStore.createIndex('por-nombre', 'nombre');
-    }).then(() => {
 
-      // db.add('usuarios', this.usuario);
-
-      /* db.add('usuarios', {
-        id: '5ac249683ce866630d0a620x',
-        role: 'USER_ROLE', google: 'false', nombre: 'el diego',
-        email: 'dfg@ceaa.com', password: ':(',
-        img: '5ac249683ce866630d0a620b-379.png'
-      }).then(() => {
-        // Do something after the value was added
-      }, (error) => {
-        console.log(error);
-      }); */
-
-      /* db.getAll('usuarios').then((usu) => {
-        console.log('::', usu);
-      }, (error) => {
-        console.log(error);
-      }); */
-
-    });
+      objectStore = upgradeDB.createObjectStore('medicos', { keyPath: '_id' });
+      objectStore.createIndex('por-nombre', 'nombre');
+    }).then(db => console.log('DB opened!', db));
   }
 }

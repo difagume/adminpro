@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 import { Hospital } from '../../models/hospital.model';
 import { HospitalService } from '../../services/service.index';
-import { AngularIndexedDB } from 'angular2-indexeddb';
 
 declare let swal: any;
 
@@ -37,7 +36,7 @@ export class HospitalesComponent implements OnInit {
   cargarHospitales() {
     this.cargando = true;
 
-    // Cargar hospitales desde indexedDB
+    /* // Cargar hospitales desde indexedDB
     let db = new AngularIndexedDB('hospitaldb', 1);
     if (db) {
       db.openDatabase(1).then(() => {
@@ -72,7 +71,7 @@ export class HospitalesComponent implements OnInit {
             });
           });
         });
-    }
+    } */
   }
 
   obtenerHospital(id: string) {
