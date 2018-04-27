@@ -20,16 +20,16 @@ export class ErrorHandlerService {
         swal('Aviso', 'No tiene conexión de Internet', 'error');
       } else {
         // Handle Http Error (error.status === 403, 404...)
-        swal(`Error ${err.status}`, err.statusText, 'error');
+        if (err.error.mensaje) {
+          swal(err.error.mensaje, err.error.errors.message, 'error');
+        } else {
+          swal(`Error ${err.status}`, err.statusText, 'error');
+        }
       }
     } else {
       // Handle Client Error (Angular Error, ReferenceError...)
       // this.snackbar.open(err.message, 'close');
-      // if (err.error.mensaje) {
-      swal(err.error.mensaje, err.error.errors.message, 'error');
-      // } else {
-      // swal(err.name, err.message, 'error');
-      // }
+      swal(`Error ${err.status}`, err.statusText, 'error');
     }
   }
 
