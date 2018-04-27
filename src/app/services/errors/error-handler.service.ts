@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 // import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 declare let swal: any;
@@ -11,8 +12,25 @@ export class ErrorHandlerService {
   ) { }
 
   public handleError(err: any) {
-    // this.snackbar.open(err.message, 'close');
-    swal(err.error.mensaje, err.error.errors.message, 'error');
+    if (err instanceof HttpErrorResponse) {
+      // Server or connection error happened
+      swal('error', 'errro de servidor', 'error');
+      if (!navigator.onLine) {
+        // Handle offline error
+        swal('Aviso', 'No tiene conexión de Internet', 'error');
+      } else {
+        // Handle Http Error (error.status === 403, 404...)
+        swal(`Error ${err.status}`, err.statusText, 'error');
+      }
+    } else {
+      // Handle Client Error (Angular Error, ReferenceError...)
+      // this.snackbar.open(err.message, 'close');
+      // if (err.error.mensaje) {
+      swal(err.error.mensaje, err.error.errors.message, 'error');
+      // } else {
+      // swal(err.name, err.message, 'error');
+      // }
+    }
   }
 
 }
