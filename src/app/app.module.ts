@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 // temporal
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Angular material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 // ngx-progressbar
 import { HttpClientModule } from '@angular/common/http';
 import { NgProgressModule } from '@ngx-progressbar/core';
@@ -63,6 +67,8 @@ export function getAuthServiceConfigs() {
     APP_ROUTES,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
     ServiceModule,
     SharedModule,
     HttpClientModule,

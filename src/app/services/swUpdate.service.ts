@@ -1,15 +1,15 @@
 // Servicio para actualizar Service Worker
 
 import { Injectable } from '@angular/core';
-// import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { SwUpdate } from '@angular/service-worker';
 
 @Injectable()
 export class SwUpdateService {
 
   constructor(
-    swUpdate: SwUpdate
-    // private snackBar: MatSnackBar
+    swUpdate: SwUpdate,
+    private snackBar: MatSnackBar
   ) {
     swUpdate.available.subscribe(event => {
       console.log('current version is', event.current);
@@ -24,19 +24,11 @@ export class SwUpdateService {
       console.log('Nope 🙁');
     }
     swUpdate.available.subscribe(event => {
-      /* if (promptUser(event)) {
+      // console.log('Una versión más nueva está disponible. Actualiza la página ahora para actualizar el caché');
+      const snack = this.snackBar.open('Actualización disponible', 'Recargar', { duration: 5000 });
+      snack.onAction().subscribe(() => {
         swUpdate.activateUpdate().then(() => document.location.reload());
-      } */
+      });
     });
-    // this.swUpdate.available.subscribe(evt => {
-    // console.log('Una versión más nueva está disponible. Actualiza la página ahora para actualizar el caché');
-    // const snack = this.snackBar.open('Actualización disponible', 'Recargar', { duration: 500 });
-
-    /* snack
-      .onAction()
-      .subscribe(() => {
-        document.location.reload();
-      }); */
-    // });
   }
 }
