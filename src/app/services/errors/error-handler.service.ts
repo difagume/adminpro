@@ -14,7 +14,7 @@ export class ErrorHandlerService {
   public handleError(err: any) {
     if (err instanceof HttpErrorResponse) {
       // Server or connection error happened
-      swal('error', 'errro de servidor', 'error');
+      swal('error', 'error de servidor', 'error');
       if (!navigator.onLine) {
         // Handle offline error
         swal('Aviso', 'No tiene conexión de Internet', 'error');

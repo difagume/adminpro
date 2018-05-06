@@ -31,3 +31,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # Generar el build de distribución
 
 ng build -prod -aot false
+
+#firebase
+https://firebase.google.com/docs/hosting/deploying?hl=es-419
+
+firebase deploy

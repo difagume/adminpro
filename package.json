@@ -25,6 +25,7 @@
     "@angular/service-worker": "^5.2.10",
     "@ngx-progressbar/core": "^4.1.1",
     "@ngx-progressbar/http": "^4.1.1",
+    "angular5-social-login": "^1.0.9",
     "chart.js": "^2.7.2",
     "core-js": "^2.4.1",
     "idb": "^2.1.1",

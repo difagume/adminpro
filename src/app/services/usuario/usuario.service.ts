@@ -5,10 +5,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { URL_SERVICIOS } from '../../config/config';
+import { URL_SERVICIOS, FACEBBOK_APP_TOKEN } from '../../config/config';
 import { Usuario } from '../../models/usuario.model';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
 import idb from 'idb';
+import { AuthService, SocialUser } from 'angular5-social-login';
 
 declare let swal: any;
 
@@ -18,12 +19,13 @@ export class UsuarioService {
   usuario: Usuario;
   token: string;
   menu: any[] = [];
-  auth2: any; // The Sign-In object.
+  // auth2: any; // The Sign-In object.
 
   constructor(
     public http: HttpClient,
     public router: Router,
-    public _subirArchivoService: SubirArchivoService
+    public _subirArchivoService: SubirArchivoService,
+    private socialAuthService: AuthService
   ) {
     console.log('usuarioService listo');
     this.cargarStorage();
@@ -78,9 +80,16 @@ export class UsuarioService {
   }
 
   logout() {
-    if (this.usuario.google && this.auth2) {
+    /* if (this.usuario.google && this.auth2) {
       this.signOutGoogle();
-    }
+    } */
+
+    this.socialAuthService.authState.subscribe(state => {
+      if (state) {
+        this.socialAuthService.signOut();
+      }
+    });
+
     this.usuario = null;
     this.token = '';
     this.menu = [];
@@ -93,12 +102,12 @@ export class UsuarioService {
     this.router.navigate(['/login']);
   }
 
-  signOutGoogle() {
+  /* signOutGoogle() {
     // this.auth2 = gapi.auth2.getAuthInstance();
     this.auth2.signOut().then(() => {
       // console.log('usuario de google desconectado');
     });
-  }
+  } */
 
   loginGoogle(token: string) {
     const url = URL_SERVICIOS + '/login/google';
@@ -108,6 +117,28 @@ export class UsuarioService {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         // console.log(resp);
         // Creación de IndexeDB hospital
+        this.crearIdbHospital();
+        return true;
+      });
+  }
+
+  verificaTokenFacebook(token: string) {
+    const url = 'https://graph.facebook.com/debug_token?input_token=' + token + '&access_token=' + FACEBBOK_APP_TOKEN;
+
+    return this.http.get(url)
+      .map((usuData: any) => {
+
+        // console.log('face token valido: ', usuData.data.is_valid);
+        return usuData.data.is_valid;
+      });
+  }
+
+  loginFacebook(usuario: SocialUser) {
+    const url = URL_SERVICIOS + '/login/facebook';
+
+    return this.http.post(url, usuario)
+      .map((resp: any) => {
+        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         this.crearIdbHospital();
         return true;
       });

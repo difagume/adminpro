@@ -31,6 +31,26 @@ import { environment } from '../environments/environment';
 // Service worker
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+// Social login
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from 'angular5-social-login';
+
+// Configs
+export function getAuthServiceConfigs() {
+  const config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider('216202075637279')
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider('458229930749-sr6sma82ppdcr8546mn3qtilsuqbb7a7.apps.googleusercontent.com')
+      },
+    ]
+  );
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +68,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HttpClientModule,
     NgProgressModule.forRoot(),
     NgProgressHttpModule,
+    SocialLoginModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
@@ -57,6 +78,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       useClass: HttpInterceptorService,
       multi: true,
     },
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
   ],
   bootstrap: [AppComponent]
 })
